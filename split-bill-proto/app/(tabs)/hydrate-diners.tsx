@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View, Modal } from 'react-native'
+import { ScrollView, SafeAreaView, StyleSheet, View, Modal } from 'react-native'
 import React from 'react'
 import { useState }  from 'react'
 
@@ -18,102 +18,70 @@ export default function hydrateDiners() {
       level='1'
     >
 
-      <Layout 
-        style={styles.headerContainer}
-        level='1'>
-        <Text category='h1'>Hydrate Diners</Text>
-      </Layout>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        horizontal={false}
+      >
+        <Layout 
+          style={styles.headerContainer}
+          level='1'>
+          <Text category='h1'>Hydrate Diners</Text>
+        </Layout>
 
-      <Layout
-        style={styles.drawerContainer}
-        level='2'
+        <Layout
+          style={styles.drawerContainer}
+          level='2'
         >
-        <Drawer
-          selectedIndex={selectedIndex}
-          onSelect={index => setSelectedIndex(index)}
-          style={styles.drawer}
-        >
-          <DrawerGroup
-            title='Akveo React Native'
+          {/* TODO: Will this be tabbed UI of diners? */}
+
+          {/* Avatar Layout */}
+          <Layout
+            level='2'
+          > 
+            <Avatar source={require('../../assets/images/icon.png')} />
+          </Layout>
+
+          {/* Diner name layout */}
+          <Layout
+            level='2'
           >
-            <DrawerItem
-              title='UI Kitten'
-            />
-            <DrawerItem
-              title='Kitten Tricks'
-            />
-          </DrawerGroup>
-          <DrawerGroup
-            title='Akveo Angular'
+            <Text category='h3'>Zafir</Text>
+          </Layout>
+
+          {/* Items Layout */}
+          <Layout
+            level='3'
           >
-            <DrawerItem
-              title='Nebular'
-            />
-            <DrawerItem
-              title='ngx-admin'
-            />
-            <DrawerItem
-              title='UI Bakery'
-            />
-          </DrawerGroup>
+            <Text category='h6'>Items</Text>
+          </Layout>
 
-        </Drawer>
-      </Layout>
-
-      <Layout
-        style={styles.dinerContainer}
-        >
-        {/* Header container
-            1. Avatar w/ color circle
-            2. Heading w/ name  */}
-        <Layout>
-
-          <Avatar source={require('../../assets/images/icon.png')} />
-
-          <Text category='h4'>Zafir</Text>
-
+          {/* Confirm button layout */}
+          <Layout
+            level='2'
+          > 
+            <Button>Confirm</Button>
+          </Layout>
         </Layout>
 
-        {/* Checkbox container
-            1. Checkboxes w/ each dish
-            2. Should be scrollable */}
-        
-        <Layout>
 
-          <CheckBox>Chicken</CheckBox>
-          <CheckBox>Beef</CheckBox>
-          <CheckBox>Pork</CheckBox>
-          <CheckBox>Vegetables</CheckBox>
-          <CheckBox>Seafood</CheckBox>
-          <CheckBox>Drinks</CheckBox>
-          <CheckBox>Desert</CheckBox>
+        <Layout 
+          style={styles.nextContainer}
+          level='1'>
+          <Button
+            appearance='outline'
+            status='success'
+            size='large'
+            style={styles.nextBtn}
+            onPress={() => router.push('/summary')}
+          >    
+            <Text>Next</Text>
+          </Button>
+        </Layout> 
 
-        </Layout>
-        
-        {/* Confirm container
-            1. Confirmation button */}
+      </ScrollView>
 
-        <Layout>
 
-          <Button>Confirm</Button>
-
-        </Layout>
-
-      </Layout>
-
-      <Layout 
-        style={styles.nextContainer}
-        level='1'>
-        <Button
-          appearance='outline'
-          status='success'
-          size='large'
-          style={styles.nextBtn}
-          onPress={() => router.push('/summary')}
-        >    
-          <Text>Next</Text>
-        </Button>
-      </Layout> 
 
     </Layout>
   )
@@ -123,24 +91,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
     height: '100%',
-    padding: '3%',
+    padding: '1%',
   },
-  headerContainer: {
-    flex: 1,
+  scrollContainer: {
+    // flex: 1,
     width: '100%',
     alignItems: 'center',
+  },
+  headerContainer: {
+    justifyContent: 'center',
     padding: 10,
     marginTop: 10,
   },
   drawerContainer: {
-    flex: 10,
+    // flex: 6,
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    borderRadius: 10,
-    // paddingTop: 15,
+    borderRadius: 8,
+    padding: 8,
+    marginBottom: 8,
   },
   drawer: {
     width: '100%',

@@ -33,6 +33,9 @@ export default function TabLayout() {
       </Layout>
 
       {/* TODO: Add route guards */} 
+      {/* TODO: Style bottom nav
+          1. Make text bigger
+          2. Conditional styling based on step */}
       <BottomNavigation
         selectedIndex={selectedIndex}
         onSelect={navigateTo}

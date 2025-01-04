@@ -91,13 +91,19 @@ export default function addBill() {
           </Layout>
 
 
-
+          <Button
+            appearance='ghost'
+            size='giant'
+            accessoryLeft={PlusIcon}
+            style={styles.plusIconBtn}
+          />
         </Layout>
 
         <Layout
           style={styles.summaryContainer}
           level='2'
         >
+          <Text category='h6'>Subtotal: </Text>
           <Layout
             style={styles.extrasContainer}
             level='2'
@@ -118,41 +124,26 @@ export default function addBill() {
             </Select>
           </Layout>
 
-
-
-        <Layout
-          style={styles.extrasContainer}
-          level='2'
-        >
-          <Text category='h6'>Tip: </Text>
-          <Input
-            style={styles.extrasInput}
-            value={value}
-            placeholder='Dish name'
-          />
-          <Select
-            style={styles.extrasType}
-            selectedIndex={selectedIndex}
-            onSelect={index => setSelectedIndex(index)}
-            >
-              <SelectItem title='%' />
-              <SelectItem title='$' />
-          </Select>
-        </Layout>
+          <Layout
+            style={styles.extrasContainer}
+            level='2'
+          >
+            <Text category='h6'>Tip: </Text>
+            <Input
+              style={styles.extrasInput}
+              value={value}
+              placeholder='Dish name'
+            />
+            <Select
+              style={styles.extrasType}
+              selectedIndex={selectedIndex}
+              onSelect={index => setSelectedIndex(index)}
+              >
+                <SelectItem title='%' />
+                <SelectItem title='$' />
+            </Select>
+          </Layout>
           <Text category='h6'>Total: </Text>
-        </Layout>
-
-        <Layout
-          style={styles.btnContainer}
-          level='1'
-        >
-          <Button
-            appearance='ghost'
-            size='giant'
-            accessoryLeft={PlusIcon}
-            style={styles.plusIconBtn}
-          />
-
         </Layout>
 
         <Layout 
@@ -197,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    borderRadius: 10,
+    borderRadius: 8,
     padding: 8,
     marginBottom: 8,
   },
@@ -231,7 +222,7 @@ const styles = StyleSheet.create({
   summaryContainer: {
     // flex: 2,
     flexDirection: 'column',
-    borderRadius: 10,
+    borderRadius: 8,
     padding: 8,
     marginBottom: 8,
     // width: '100%',
@@ -242,34 +233,32 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 8,
   },
   extrasInput: {
     // flex: 6,
     width: '40%',
     marginRight: 10,
-    borderRadius: 10,
+    borderRadius: 8,
   },
   extrasType: {
     // flex: 2,
     width: '20%',
     marginRight: 10,
-    borderRadius: 10,
-  },
-  btnContainer: {
-    marginBottom: 10, 
-    borderRadius: 10,
+    borderRadius: 8,
   },
   plusIcon: {
-    width: 42,
-    height: 42,
+    width: 36,
+    height: 36,
     tintColor: '#8F9BB3',
   },
   plusIconBtn: {
+    marginTop: 10,
+    width:'20%',
     borderRadius: 100,
   },
   nextContainer: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
