@@ -1,10 +1,26 @@
-import { ScrollView, SafeAreaView, StyleSheet, View, Modal } from 'react-native'
+import { ScrollView, SafeAreaView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { useState }  from 'react'
 
 import { useRouter } from 'expo-router';
 
-import { Button, Layout, Text, Icon, IconElement, Input, Drawer, DrawerGroup, DrawerItem, CheckBox, Avatar  } from '@ui-kitten/components';
+import { 
+  Avatar,
+  Button, 
+  Card,
+  CheckBox,
+  Drawer,
+  DrawerGroup, 
+  DrawerItem, 
+  Icon, 
+  IconElement, 
+  Input, 
+  Layout, 
+  Modal,
+  Select, 
+  SelectItem,
+  Text, 
+} from '@ui-kitten/components';
 import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
 
 
@@ -12,6 +28,8 @@ export default function hydrateDiners() {
   const router = useRouter();
   const [value, setValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState(null);
+  const [visible, setVisible] = React.useState(false);
+
   return (
     <Layout 
       style={styles.container}
@@ -23,11 +41,6 @@ export default function hydrateDiners() {
         showsVerticalScrollIndicator={false}
         horizontal={false}
       >
-        <Layout 
-          style={styles.headerContainer}
-          level='1'>
-          <Text category='h1'>Hydrate Diners</Text>
-        </Layout>
 
         <Layout
           style={styles.drawerContainer}
@@ -53,7 +66,36 @@ export default function hydrateDiners() {
           <Layout
             level='3'
           >
-            <Text category='h6'>Items</Text>
+
+            {/* Actual item layout */}
+            <Layout>
+              <Text category='h6'>Items</Text>
+              <Select
+                selectedIndex={selectedIndex}
+                onSelect={index => setSelectedIndex(index)}
+              >
+                <SelectItem title='Option 1' />
+                <SelectItem title='Option 2' />
+                <SelectItem title='Option 3' />
+              </Select>
+              <Button onPress={() => setVisible(true)}>
+                Shared
+              </Button>
+              <Modal
+                visible={visible}
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => setVisible(false)}
+              >
+                <Card disabled={true}>
+                  <Text>
+        Welcome to UI Kitten 😻
+                  </Text>
+                  <Button onPress={() => setVisible(false)}>
+                    DISMISS
+                  </Button>
+                </Card>
+              </Modal>
+            </Layout>
           </Layout>
 
           {/* Confirm button layout */}

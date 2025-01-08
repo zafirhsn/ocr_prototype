@@ -1,19 +1,29 @@
 import { ScrollView, SafeAreaView, StyleSheet, View } from 'react-native'
 import React from 'react'
-import { useState }  from 'react'
+import { useState, useMemo }  from 'react'
 
 import { useRouter } from 'expo-router';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+
+import {
+  addBillItem,
+  delBillItem,
+  setDinerItem,
+} from '../../store/store'
+
 import { 
   Button, 
-  Layout, 
-  Text, 
   Icon, 
   IconElement, 
+  IndexPath, 
   Input,
+  Layout, 
   Select, 
   SelectItem,
-  IndexPath } from '@ui-kitten/components';
+  Text, 
+} from '@ui-kitten/components';
 
 const PlusIcon = (props: any): IconElement => (
   <Icon
@@ -33,8 +43,70 @@ const DeleteIcon = (props: any): IconElement => (
 
 export default function addBill() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const bill = useSelector((state: RootState) => state.bill);
+
+  const subtotal = useMemo(() => {
+    const s = bill.items.reduce((sum, i) => {
+      return sum + (i.price * i.quantity)
+    }, 0)
+    return s;
+  }, [bill.items])
+
+
+
   const [value, setValue] = React.useState('');
   const [selectedIndex, setSelectedIndex] = React.useState<IndexPath | IndexPath[]>(new IndexPath(0));
+
+  const addItem = () => {
+    // TODO: Creates new line item in bill with default 1 quantity
+    /* 
+      1. Should update state to create new object in bill.items that is { name: '', quantity: 1, price: null, shares: [] }
+    */
+    dispatch(addBillItem());
+    console.log(bill);
+  }
+
+  const setItem = (type: string, index, value: any) => {
+
+    // TODO: input validation
+
+    if (type === 'quantity') {
+      value = value.row + 1;
+    }
+
+    dispatch(setDinerItem({ type, index, value }))
+  }
+
+  const deleteItem = (index: number) => {
+    // TODO: Deletes line item from bill
+
+    /* 
+      1. Should update state to remove bill.items.id?
+    */
+    console.log('Delete btn pressed')
+    console.log(index);
+    dispatch(delBillItem(index));
+  }
+
+  const routeGuard = () => {
+
+    // TODO: add route guards
+    /* 
+      1. Are there any items in our state at all?
+      2. Does the item have a name, quanitity, and price?
+      3. Is the tax and tip selected?
+    
+    */
+
+    // TODO: If screen valid and complete, tell bottom nav to update
+    router.push('/add-diners')
+  }
+
+  const inputValidation = () => {
+
+  }
+
   return (
     <Layout 
       style={styles.container}
@@ -56,19 +128,21 @@ export default function addBill() {
         style={styles.billContainer}
         level='2'
         >
-          <Layout 
+          {bill.items.map((item, index) => (
+            <Layout 
             style={styles.itemContainer}
             level='2'>
             <Input
               style={styles.itemInputDish}
-              value={value}
-              placeholder='Dish name'
-              onChangeText={nextValue => setValue(nextValue)}
+              value={item.name}
+              placeholder='Affogato'
+              onChangeText={ (value) => setItem('name', index, value) }
             />
             <Select
               style={styles.itemInputQty}
-              selectedIndex={selectedIndex}
-              onSelect={index => setSelectedIndex(index)}
+              selectedIndex={new IndexPath(item.quantity)}
+              onSelect={ (value) => setItem('quantity', index, value)}
+              value={item.quantity}
             >
               <SelectItem title='1' />
               <SelectItem title='2' />
@@ -78,24 +152,27 @@ export default function addBill() {
             </Select>
             <Input
               style={styles.itemInputPrice}
-              value={value}
+              value={item.price}
               placeholder='$'
-              onChangeText={nextValue => setValue(nextValue)}
+              onChangeText={(value) => setItem('price', index, value)}
             />
             <Button
               appearance='ghost'
               size='small'
               accessoryLeft={DeleteIcon}
               style={styles.deleteIconBtn}
+              onPress={ () => deleteItem(index) }
             />
           </Layout>
-
+            
+          ))}
 
           <Button
             appearance='ghost'
             size='giant'
             accessoryLeft={PlusIcon}
             style={styles.plusIconBtn}
+            onPress={addItem}
           />
         </Layout>
 
@@ -104,6 +181,7 @@ export default function addBill() {
           level='2'
         >
           <Text category='h6'>Subtotal: </Text>
+          <Text>{ subtotal }</Text>
           <Layout
             style={styles.extrasContainer}
             level='2'
@@ -154,7 +232,7 @@ export default function addBill() {
             status='success'
             size='large'
             style={styles.nextBtn}
-            onPress={() => router.push('/add-diners')}
+            onPress={routeGuard}
           >    
             <Text>Next</Text>
           </Button>

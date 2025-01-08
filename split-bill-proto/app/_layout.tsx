@@ -2,6 +2,8 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { Provider } from "react-redux"
+import { store } from "../store/store"
 
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
@@ -39,19 +41,21 @@ export default function RootLayout() {
   return (
     // TODO: Fix eva color
     <>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={colorScheme === 'dark' ? eva.dark : eva.light}>
-        <Layout style={styles.container}>
-          {/* <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}> */}
-            <Stack>
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" options={{ headerShown: false }}/>
-            </Stack>
-            <StatusBar style="auto" />
-          {/* </ThemeProvider> */}
-        </Layout>
-      </ApplicationProvider>
+      <Provider store={store}>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={colorScheme === 'dark' ? eva.dark : eva.light}>
+          <Layout style={styles.container}>
+            {/* <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}> */}
+              <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" options={{ headerShown: false }}/>
+              </Stack>
+              <StatusBar style="auto" />
+            {/* </ThemeProvider> */}
+          </Layout>
+        </ApplicationProvider>
+      </Provider>
     </>
   );
 }

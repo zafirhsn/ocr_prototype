@@ -1,9 +1,21 @@
-import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { ScrollView, SafeAreaView, StyleSheet, View } from 'react-native'
 import React from 'react'
 
 import { useRouter } from 'expo-router';
 
-import { Button, Layout, Text, Icon, IconElement, Input, Drawer, DrawerGroup, DrawerItem, CheckBox, Avatar  } from '@ui-kitten/components';
+import { 
+  Avatar,  
+  Button, 
+  CheckBox, 
+  Drawer, 
+  DrawerGroup, 
+  DrawerItem, 
+  Icon, 
+  IconElement, 
+  Input, 
+  Layout, 
+  Text, 
+} from '@ui-kitten/components';
 
 
 export default function summary() {
@@ -16,52 +28,27 @@ export default function summary() {
       level='1'
     >
 
-      {/* Drawer container for each diner's summary
-          1. Lines for each item, cost at right
-          2. Share of tip and tax
-          3. Drawer UI has number, color, name, cost to right, and edit symbol */}
-      <Layout>
-        <Drawer
-          selectedIndex={selectedIndex}
-          onSelect={index => setSelectedIndex(index)}
-        >
-          <DrawerGroup
-            title='Zafir'>
-            <DrawerItem
-              title='Item 1'>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        horizontal={false}
+      >
 
-            </DrawerItem>
-            <DrawerItem
-              title='Item 2'>
-
-            </DrawerItem>
-            <DrawerItem
-              title='Item 3'>
-
-            </DrawerItem>
-            <DrawerItem
-              title='Item 4'>
-
-            </DrawerItem>
-          </DrawerGroup>
-        </Drawer>
-
-      </Layout>
-
-
-      <Layout 
-        style={styles.nextContainer}
-        level='1'>
-        <Button
-          appearance='outline'
-          status='success'
-          size='large'
-          style={styles.nextBtn}
-          onPress={() => router.push('/summary')}
-        >    
-          <Text>Next</Text>
-        </Button>
-      </Layout> 
+        
+        <Layout 
+          style={styles.nextContainer}
+          level='1'>
+          <Button
+            appearance='outline'
+            status='success'
+            size='large'
+            style={styles.nextBtn}
+            onPress={() => router.push('/summary')}
+          >    
+            <Text>Next</Text>
+          </Button>
+        </Layout> 
+      </ScrollView>
 
     </Layout>
   )
@@ -71,9 +58,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
     height: '100%',
-    padding: '3%',
+    padding: '1%',
+  },
+  scrollContainer: {
+    // flex: 1,
+    width: '100%',
+    alignItems: 'center',
   },
   headerContainer: {
     flex: 1,

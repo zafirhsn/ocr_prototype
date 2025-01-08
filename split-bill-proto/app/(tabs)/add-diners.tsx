@@ -34,6 +34,21 @@ export default function addDiners() {
     setShowModal(false)
   };
 
+  const addDiner = () => {
+    // TODO: Create new diner item in UI with default color selected
+  }
+
+  const routeGuard = () => {
+
+    // TODO: add route guards
+    /* 
+      1. Are there any diners in our state at all?
+      2. Does each diner have a name and color?
+    */
+
+    router.push('/hydrate-diners')
+  }
+
   return (
     <Layout 
       style={styles.container}
@@ -108,7 +123,7 @@ export default function addDiners() {
             status='success'
             size='large'
             style={styles.nextBtn}
-            onPress={() => router.push('/hydrate-diners')}
+            onPress={routeGuard}
           >    
             <Text>Next</Text>
           </Button>

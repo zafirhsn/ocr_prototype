@@ -23,7 +23,6 @@ export default function TabLayout() {
   };
 
   return (
-    // TODO: Fix bottom navigation taking up whole screen
     <Layout
       style={styles.container}>
       
