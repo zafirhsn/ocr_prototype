@@ -1,6 +1,7 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { Action } from '@reduxjs/toolkit'
 import ActionTypes from '@/actions/types'
+import generateRandomHexColor from '@/utils/random-color'
 
 export interface BillState {
   bill: BillObject,
@@ -20,7 +21,7 @@ export const initialState: BillState = {
     tax: {},
     tip: {},
   },
-  diners: [ { name: '', color: 'ffffff' } ],
+  diners: [ { name: '', color: generateRandomHexColor() } ],
   screens: {
     isBillReady: false,
     isDinerReady: false,
@@ -38,7 +39,7 @@ const billSlice = createSlice({
     delBillItem(state, action: PayloadAction<number>) {
       state.items.splice(action.payload, 1)
     },
-    setDinerItem(state, action: PayloadAction<Object>) {
+    setBillItem(state, action: PayloadAction<Object>) {
       state.items[action.payload.index][action.payload.type] = action.payload.value
     }
   }
@@ -49,9 +50,24 @@ const dinerSlice = createSlice({
   initialState: initialState.diners,
   reducers: {
     addDinerItem(state) {
-      state.push({ name: '', color: 'ffffff' })
+      state.push({ name: '', color: generateRandomHexColor() })
+    },
+    delDinerItem(state, action: PayloadAction<number>) {
+      state.splice(action.payload, 1)
+    },
+    setDinerItem(state, action: PayloadAction<Object>) {
+
+    },
+    setDinerColor(state, action: PayloadAction<Object>) {
+      state[action.payload.index].color = action.payload.color
     }
   }
+})
+
+const screensSlice = createSlice({
+  name: 'screens',
+  initialState: initialState.screens,
+  reducers: {}
 })
 
 
@@ -59,7 +75,8 @@ export const store = configureStore({
   // Pass in the root reducer setup as the `reducer` argument
   reducer: {
     bill: billSlice.reducer,
-    diners: dinerSlice.reducer
+    diners: dinerSlice.reducer,
+    screens: screensSlice.reducer
   }
 })
 
@@ -67,5 +84,5 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const { addBillItem, delBillItem, setDinerItem } = billSlice.actions;
-export const { addDinerItem } = dinerSlice.actions;
+export const { addBillItem, delBillItem, setBillItem } = billSlice.actions;
+export const { addDinerItem, delDinerItem, setDinerItem, setDinerColor } = dinerSlice.actions;

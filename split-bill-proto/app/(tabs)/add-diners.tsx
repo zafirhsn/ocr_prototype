@@ -1,10 +1,29 @@
-import { ScrollView, SafeAreaView, StyleSheet, View, Modal } from 'react-native'
 import React from 'react'
 import { useState }  from 'react'
-
+import { 
+  ScrollView, 
+  SafeAreaView, 
+  StyleSheet, 
+  View, 
+  Modal 
+} from 'react-native'
 import { useRouter } from 'expo-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  RootState, 
+  addDinerItem,
+  delDinerItem,
+  setDinerColor  
+} from '@/store/store';
 
-import { Button, Layout, Text, Icon, IconElement, Input } from '@ui-kitten/components';
+import { 
+  Button, 
+  Icon, 
+  IconElement, 
+  Input, 
+  Layout, 
+  Text, 
+} from '@ui-kitten/components';
 import ColorPicker, { Panel5, Swatches, Preview, PreviewText, OpacitySlider, HueSlider } from 'reanimated-color-picker';
 
 const PlusIcon = (props: any): IconElement => (
@@ -25,17 +44,29 @@ const DeleteIcon = (props: any): IconElement => (
 
 export default function addDiners() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const diners = useSelector((state: RootState) => state.diners);
+  console.log(diners);
+
   const [value, setValue] = React.useState('');
   const [showModal, setShowModal] = useState(false);
 
-  const onSelectColor = ({ hex }: any) => {
-    // do something with the selected color.
-    console.log(hex);
+  const onSelectColor = (index, { hex }: any) => {
+    console.log(index, hex);
+    dispatch(setDinerColor({ index, color: hex}))
     setShowModal(false)
   };
 
   const addDiner = () => {
     // TODO: Create new diner item in UI with default color selected
+    dispatch(addDinerItem());
+    console.log(diners);
+  }
+
+  const deleteDiner = (index) => {
+    console.log('Delete btn pressed')
+    console.log(index);
+    dispatch(delDinerItem(index));
   }
 
   const routeGuard = () => {
@@ -72,46 +103,57 @@ export default function addDiners() {
           style={styles.dinerContainer}
           level='2'
           >
-          <Layout 
-            style={styles.itemContainer}
-            level='2'
+
+          {diners.map((item, index) => (
+            <Layout 
+              style={styles.itemContainer}
+              level='2'
             >
-            <Input
-              style={styles.dinerInputName}
-              value={value}
-              placeholder='Name'
-              onChangeText={nextValue => setValue(nextValue)}
-            />
-
-            {/* TODO: Avatar button that contains randomly generated color
-              1. Click to open modal and change color of person. Closes modal right after */}
-            <Button
-              appearance='ghost'
-              size='small'
-              onPress={() => setShowModal(true)}
-              style={styles.colorPickerBtn}/>
-            <Modal 
-              visible={showModal} 
-              animationType='slide'
+              <Text>  # {index+1}   </Text>
+              <Input
+                style={styles.dinerInputName}
+                value={item.name}
+                placeholder='Name'
+                onChangeText={nextValue => setValue(nextValue)}
+              />
+              <Button
+                appearance='outline'
+                size='small'
+                onPress={() => setShowModal(true)}
+                style={ {...styles.colorPickerBtn, backgroundColor: item.color }}
+              />
+              {/* // TODO: Get modal to be styled */}
+              <Modal 
+                visible={showModal} 
+                animationType='slide'
+                backdropStyle={styles.backdrop}
+                onBackdropPress={() => setShowModal(false)}
+                style={styles.colorSelectorModal}
               >
-              <ColorPicker style={{ width: '70%' }} value='red' onComplete={onSelectColor}>
-                <PreviewText/>
-                <Panel5/>
-              </ColorPicker>
-            </Modal>
-            <Button
-              appearance='ghost'
-              size='small'
-              accessoryLeft={DeleteIcon}
-              style={styles.deleteIconBtn}
-            />
-          </Layout>
-
+                <ColorPicker 
+                  style={{ width: '100%' }} 
+                  value='red' 
+                  // TODO: get index to be right when changing color of diner
+                  onComplete={ (v) => onSelectColor(index, v)}>
+                  <PreviewText/>
+                  <Panel5/>
+                </ColorPicker>
+              </Modal>    
+              <Button
+                appearance='ghost'
+                size='small'
+                accessoryLeft={DeleteIcon}
+                style={styles.deleteIconBtn}
+                onPress={() => deleteDiner(index)}
+              />
+            </Layout>
+          ))}
           <Button
           appearance='ghost'
           size='giant'
           accessoryLeft={PlusIcon}
           style={styles.plusIconBtn}
+          onPress={addDiner}
           />
         </Layout>
 
@@ -210,6 +252,19 @@ const styles = StyleSheet.create({
   nextBtn: {
     width: '40%',
     borderRadius: 100,
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  colorSelectorModal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    padding: '10%',
+    // margin: '10%',
+    // flex: 1,
+    // height: '100%',
+    backgroundColor: 'red'
   }
 
 

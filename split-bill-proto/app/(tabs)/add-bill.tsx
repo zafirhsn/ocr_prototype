@@ -1,7 +1,11 @@
-import { ScrollView, SafeAreaView, StyleSheet, View } from 'react-native'
 import React from 'react'
 import { useState, useMemo }  from 'react'
-
+import { 
+  SafeAreaView, 
+  ScrollView, 
+  StyleSheet, 
+  View 
+} from 'react-native'
 import { useRouter } from 'expo-router';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +14,7 @@ import { RootState } from '@/store/store';
 import {
   addBillItem,
   delBillItem,
-  setDinerItem,
+  setBillItem,
 } from '../../store/store'
 
 import { 
@@ -47,6 +51,8 @@ export default function addBill() {
   const bill = useSelector((state: RootState) => state.bill);
 
   const subtotal = useMemo(() => {
+
+    // TODO: Fix decimal place subtotal
     const s = bill.items.reduce((sum, i) => {
       return sum + (i.price * i.quantity)
     }, 0)
@@ -75,15 +81,10 @@ export default function addBill() {
       value = value.row + 1;
     }
 
-    dispatch(setDinerItem({ type, index, value }))
+    dispatch(setBillItem({ type, index, value }))
   }
 
   const deleteItem = (index: number) => {
-    // TODO: Deletes line item from bill
-
-    /* 
-      1. Should update state to remove bill.items.id?
-    */
     console.log('Delete btn pressed')
     console.log(index);
     dispatch(delBillItem(index));
@@ -176,6 +177,7 @@ export default function addBill() {
           />
         </Layout>
 
+        {/* //TODO: Fix summary container styles */}
         <Layout
           style={styles.summaryContainer}
           level='2'
