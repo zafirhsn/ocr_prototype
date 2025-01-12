@@ -50,10 +50,11 @@ export default function addDiners() {
 
   const [value, setValue] = React.useState('');
   const [showModal, setShowModal] = useState(false);
+  const [currentDinerIndex, setCurrentDinerIndex] = useState<number>(-1);
 
-  const onSelectColor = (index, { hex }: any) => {
-    console.log(index, hex);
-    dispatch(setDinerColor({ index, color: hex}))
+  const onSelectColor = (v, index) => {
+    console.log(index, v);
+    dispatch(setDinerColor({ index, color: v.hex}))
     setShowModal(false)
   };
 
@@ -119,7 +120,11 @@ export default function addDiners() {
               <Button
                 appearance='outline'
                 size='small'
-                onPress={() => setShowModal(true)}
+                onPress={() => {
+                  setCurrentDinerIndex(index);
+                  setShowModal(true);
+
+                }}
                 style={ {...styles.colorPickerBtn, backgroundColor: item.color }}
               />
               {/* // TODO: Get modal to be styled */}
@@ -132,9 +137,8 @@ export default function addDiners() {
               >
                 <ColorPicker 
                   style={{ width: '100%' }} 
-                  value='red' 
                   // TODO: get index to be right when changing color of diner
-                  onComplete={ (v) => onSelectColor(index, v)}>
+                  onComplete={ (v) => onSelectColor(v, currentDinerIndex)}>
                   <PreviewText/>
                   <Panel5/>
                 </ColorPicker>
