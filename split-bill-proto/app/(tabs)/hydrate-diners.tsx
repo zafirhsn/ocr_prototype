@@ -68,7 +68,9 @@ export default function hydrateDiners() {
           >
 
             {/* Actual item layout */}
-            <Layout>
+            <Layout
+              level='2'
+            >
               <Text category='h6'>Items</Text>
               <Select
                 selectedIndex={selectedIndex}

@@ -19,6 +19,7 @@ import {
 
 import { 
   Button, 
+  Divider,
   Icon, 
   IconElement, 
   IndexPath, 
@@ -168,6 +169,61 @@ export default function addBill() {
             
           ))}
 
+          <Layout
+            style={styles.extrasContainer}
+            level='2'
+          >
+            <Text> Tax </Text>
+
+            <Layout
+              style={styles.extrasInputContainer}
+              level='2'
+            >
+              <Input
+                style={styles.extrasInput}
+                value={value}
+                placeholder='Amount'
+              />
+              <Select
+                style={styles.extrasType}
+                selectedIndex={selectedIndex}
+                onSelect={index => setSelectedIndex(index)}
+              >
+                <SelectItem title='%' />
+                <SelectItem title='$' />
+              </Select>
+            </Layout>
+          </Layout>
+
+          <Layout
+            style={styles.extrasContainer}
+            level='2'
+          >
+            <Text> Tip </Text>
+
+
+            <Layout
+              style={styles.extrasInputContainer}
+              level='2'
+            >
+              <Input
+                style={styles.extrasInput}
+                value={value}
+                placeholder='Dish name'
+              />
+              <Select
+                style={styles.extrasType}
+                selectedIndex={selectedIndex}
+                onSelect={index => setSelectedIndex(index)}
+                >
+                  <SelectItem title='%' />
+                  <SelectItem title='$' />
+              </Select>
+            </Layout>
+          </Layout>
+
+          <Divider/>
+
           <Button
             appearance='ghost'
             size='giant'
@@ -175,56 +231,50 @@ export default function addBill() {
             style={styles.plusIconBtn}
             onPress={addItem}
           />
+
+
+          <Layout
+            style={styles.summaryContainer}
+            level='2'
+          >
+            <Divider />         
+
+            <Layout 
+              style={styles.sumTextContainer}
+              level='2'
+            >
+              <Text>Subtotal </Text>
+              <Text>$ { subtotal }</Text>
+            </Layout>
+
+            <Layout
+              style={styles.sumTextContainer}
+              level='2'
+            >
+              <Text>Tax </Text>
+              <Text>$ { subtotal }</Text>
+            </Layout>
+
+            <Layout
+              style={styles.sumTextContainer}
+              level='2'
+            >
+              <Text>Tip </Text>
+              <Text>$ { subtotal }</Text>
+            </Layout>
+
+            <Divider/>
+            <Layout 
+              style={styles.sumTextContainer}
+              level='2'
+            >
+              <Text category='h6'>Total </Text>
+            </Layout>
+          </Layout>
+
         </Layout>
 
         {/* //TODO: Fix summary container styles */}
-        <Layout
-          style={styles.summaryContainer}
-          level='2'
-        >
-          <Text category='h6'>Subtotal: </Text>
-          <Text>{ subtotal }</Text>
-          <Layout
-            style={styles.extrasContainer}
-            level='2'
-          >
-            <Text category='h6'>Tax: </Text>
-            <Input
-              style={styles.extrasInput}
-              value={value}
-              placeholder='Amount'
-            />
-            <Select
-              style={styles.extrasType}
-              selectedIndex={selectedIndex}
-              onSelect={index => setSelectedIndex(index)}
-            >
-              <SelectItem title='%' />
-              <SelectItem title='$' />
-            </Select>
-          </Layout>
-
-          <Layout
-            style={styles.extrasContainer}
-            level='2'
-          >
-            <Text category='h6'>Tip: </Text>
-            <Input
-              style={styles.extrasInput}
-              value={value}
-              placeholder='Dish name'
-            />
-            <Select
-              style={styles.extrasType}
-              selectedIndex={selectedIndex}
-              onSelect={index => setSelectedIndex(index)}
-              >
-                <SelectItem title='%' />
-                <SelectItem title='$' />
-            </Select>
-          </Layout>
-          <Text category='h6'>Total: </Text>
-        </Layout>
 
         <Layout 
           style={styles.nextContainer}
@@ -305,27 +355,36 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     marginBottom: 8,
-    // width: '100%',
+    width: '100%',
+  },
+  sumTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
   extrasContainer: {
     // flex: 1,
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    // padding: 8,
     marginBottom: 10,
-    borderRadius: 8,
+  },
+  extrasInputContainer: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    // width: '100%'
   },
   extrasInput: {
     // flex: 6,
-    width: '40%',
+    width: '50%',
     marginRight: 10,
-    borderRadius: 8,
   },
   extrasType: {
     // flex: 2,
-    width: '20%',
-    marginRight: 10,
-    borderRadius: 8,
+    width: '30%',
+    // marginRight: 10,
   },
   plusIcon: {
     width: 36,
