@@ -55,7 +55,7 @@ export default function addBill() {
 
     // TODO: Fix decimal place subtotal
     const s = bill.items.reduce((sum, i) => {
-      return sum + (i.price * i.quantity)
+      return (sum + (i.price * i.quantity)).toFixed(2)
     }, 0)
     return s;
   }, [bill.items])
@@ -304,7 +304,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     // flex: 1,
+    flexDirection: 'column',
     width: '100%',
+    minHeight: '100%',
     alignItems: 'center',
   },
   headerContainer: {
@@ -397,7 +399,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
   },
   nextContainer: {
-    // flex: 1,
+    flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',

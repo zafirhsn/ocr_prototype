@@ -190,7 +190,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     // flex: 1,
+    flexDirection: 'column',
     width: '100%',
+    minHeight: '100%',
     alignItems: 'center',
   },
   headerContainer: {

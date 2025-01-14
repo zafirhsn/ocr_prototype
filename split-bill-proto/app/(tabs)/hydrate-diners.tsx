@@ -140,7 +140,9 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     // flex: 1,
+    flexDirection: 'column',
     width: '100%',
+    minHeight: '100%',
     alignItems: 'center',
   },
   headerContainer: {
@@ -166,10 +168,10 @@ const styles = StyleSheet.create({
   },
   nextContainer: {
     flex: 1,
-    width: '100%',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    width: '100%',
     padding: 10,
-    marginBottom: 10,
   },
   nextBtn: {
     width: '40%',
